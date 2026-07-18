@@ -17,14 +17,20 @@ namespace DoorPuzzle
     /// </summary>
     public sealed class TitleSequenceController : MonoBehaviour
     {
-        [SerializeField] private string gameplaySceneName = "Scene-3 Demo";
+        [SerializeField] private string gameplaySceneName = "Scene-TestLevel";
         [SerializeField] private AudioClip rainyAtmo;
         [SerializeField] private AudioClip titleTutorialBgm;
         [SerializeField] private Material wetStreetMaterial;
+        [SerializeField] private GameObject rainyAlleyAtmospherePrefab;
+        [SerializeField] private GameObject lightingRigPrefab;
+        [SerializeField] private GameObject titleStreetPrefab;
+        [SerializeField] private Sprite headsetPromptSprite;
         [SerializeField] private TMP_FontAsset koreanFont;
         [SerializeField, Range(0f, 1f)] private float ambienceVolume = 0.52f;
         [SerializeField, Range(0f, 1f)] private float titleMusicVolume = 0.58f;
         [SerializeField, Min(0.1f)] private float titleMusicFadeInDuration = 6f;
+        [SerializeField, Min(0.05f)] private float headsetPromptFadeDuration = 0.75f;
+        [SerializeField, Min(0f)] private float headsetPromptHoldDuration = 1.8f;
         [SerializeField, Min(0.05f)] private float transitionDuration = 0.35f;
 
         private static readonly string[] Questions =
@@ -60,6 +66,7 @@ namespace DoorPuzzle
         private Vector3 roseBasePosition;
         private CanvasGroup titleGroup;
         private CanvasGroup questionGroup;
+        private CanvasGroup headsetPromptGroup;
         private Image fadeOverlay;
         private TMP_Text questionText;
         private TMP_Text firstChoiceText;
@@ -129,6 +136,23 @@ namespace DoorPuzzle
             cameraObject.AddComponent<UniversalAdditionalCameraData>().renderPostProcessing = true;
             cameraObject.AddComponent<AudioListener>();
 
+            if (titleStreetPrefab != null)
+            {
+                var titleStreet = Instantiate(titleStreetPrefab, visualRoot, false);
+                titleStreet.name = "Title Street from Scene-TestLevel";
+                titleStreet.transform.localPosition = Vector3.zero;
+                titleStreet.transform.localRotation = Quaternion.identity;
+                titleStreet.transform.localScale = Vector3.one;
+                PrepareTitleStreet(titleStreet);
+
+                CreateRose(visualRoot);
+                CreatePlayerCigarette(titleCamera);
+                CreatePostProcessing(visualRoot);
+                return;
+            }
+
+            Debug.LogWarning("[DoorPuzzle] Title street prefab is not assigned. Using the legacy title alley fallback.");
+
             var darkWall = CreateLitMaterial("Title Alley Wall", new Color(0.018f, 0.025f, 0.035f), Color.black, 0.14f, 0.05f);
             var trim = CreateLitMaterial("Title Alley Trim", new Color(0.035f, 0.045f, 0.055f), Color.black, 0.72f, 0.35f);
             var ground = CreateBox("Wet Alley", new Vector3(0f, -0.12f, 4f), new Vector3(9.5f, 0.22f, 29f), wetStreetMaterial, visualRoot);
@@ -139,22 +163,106 @@ namespace DoorPuzzle
             CreateBox("Left Curb", new Vector3(-4.35f, 0.05f, 4f), new Vector3(0.42f, 0.3f, 29f), trim, visualRoot);
             CreateBox("Right Curb", new Vector3(4.35f, 0.05f, 4f), new Vector3(0.42f, 0.3f, 29f), trim, visualRoot);
 
-            var moonObject = new GameObject("Cold Rain Light");
-            moonObject.transform.SetParent(visualRoot, false);
-            moonObject.transform.rotation = Quaternion.Euler(46f, -32f, 0f);
-            var moon = moonObject.AddComponent<Light>();
-            moon.type = LightType.Directional;
-            moon.color = new Color(0.28f, 0.43f, 0.68f);
-            moon.intensity = 1.25f;
-            moon.shadows = LightShadows.Soft;
+            CreateAlleyArchitecture(visualRoot);
+
+            if (lightingRigPrefab != null)
+            {
+                var lightingRig = Instantiate(lightingRigPrefab, visualRoot, false);
+                lightingRig.name = "Title Street Lighting";
+                lightingRig.transform.localPosition = Vector3.zero;
+                lightingRig.transform.localRotation = Quaternion.identity;
+
+                // Keep the authored lamp visuals and values, but fit their positions to this narrower title alley.
+                foreach (Transform child in lightingRig.transform)
+                {
+                    var position = child.localPosition;
+                    position.x *= 0.66f;
+                    child.localPosition = position;
+                }
+            }
+            else
+            {
+                var moonObject = new GameObject("Cold Rain Light");
+                moonObject.transform.SetParent(visualRoot, false);
+                moonObject.transform.rotation = Quaternion.Euler(46f, -32f, 0f);
+                var moon = moonObject.AddComponent<Light>();
+                moon.type = LightType.Directional;
+                moon.color = new Color(0.28f, 0.43f, 0.68f);
+                moon.intensity = 1.25f;
+                moon.shadows = LightShadows.Soft;
+
+                CreatePointLight("Blue Alley Bounce", new Vector3(-3.8f, 1.4f, -2f), new Color(0.08f, 0.32f, 0.72f), 2.6f, 8f, visualRoot);
+            }
 
             CreatePointLight("Rose Lamp", new Vector3(0f, 3.2f, 4.3f), new Color(1f, 0.42f, 0.12f), 6.2f, 9f, visualRoot);
-            CreatePointLight("Blue Alley Bounce", new Vector3(-3.8f, 1.4f, -2f), new Color(0.08f, 0.32f, 0.72f), 2.6f, 8f, visualRoot);
 
             CreateRose(visualRoot);
             CreatePlayerCigarette(titleCamera);
             CreatePostProcessing(visualRoot);
-            RainVFX.Build(visualRoot);
+            if (rainyAlleyAtmospherePrefab != null)
+            {
+                var atmosphere = Instantiate(rainyAlleyAtmospherePrefab, visualRoot, false);
+                atmosphere.name = "Title Rainy Alley Atmosphere";
+                atmosphere.transform.localPosition = Vector3.zero;
+                atmosphere.transform.localRotation = Quaternion.identity;
+            }
+            else
+            {
+                RainVFX.Build(visualRoot);
+            }
+        }
+
+        private static void PrepareTitleStreet(GameObject titleStreet)
+        {
+            foreach (var child in titleStreet.GetComponentsInChildren<Transform>(true))
+            {
+                if (child.name == "Center Rose" || child.name == "Player")
+                    child.gameObject.SetActive(false);
+            }
+
+            foreach (var behaviour in titleStreet.GetComponentsInChildren<MonoBehaviour>(true))
+            {
+                var behaviourNamespace = behaviour.GetType().Namespace;
+                if (behaviourNamespace == "DoorPuzzle" ||
+                    (behaviourNamespace != null && behaviourNamespace.StartsWith("DoorPuzzle.")))
+                    behaviour.enabled = false;
+            }
+        }
+
+        private static void CreateAlleyArchitecture(Transform parent)
+        {
+            var facade = CreateLitMaterial("Title Facade", new Color(0.014f, 0.019f, 0.026f), Color.black, 0.08f, 0.24f);
+            var frame = CreateLitMaterial("Title Window Frames", new Color(0.025f, 0.031f, 0.038f), Color.black, 0.64f, 0.42f);
+            var warmGlass = CreateLitMaterial("Title Warm Windows", new Color(0.11f, 0.035f, 0.008f), new Color(2.4f, 0.48f, 0.055f), 0.05f, 0.78f);
+            var coolGlass = CreateLitMaterial("Title Cool Windows", new Color(0.008f, 0.035f, 0.055f), new Color(0.02f, 0.42f, 0.72f), 0.08f, 0.82f);
+
+            for (var index = 0; index < 4; index++)
+            {
+                var z = -3.4f + index * 6.1f;
+                CreateBox($"Left Facade {index + 1}", new Vector3(-4.72f, 2.45f, z), new Vector3(0.12f, 4.7f, 5.3f), facade, parent);
+                CreateBox($"Right Facade {index + 1}", new Vector3(4.72f, 2.45f, z), new Vector3(0.12f, 4.7f, 5.3f), facade, parent);
+
+                var leftWindow = CreateBox($"Left Window {index + 1}", new Vector3(-4.64f, 2.05f, z + 0.45f), new Vector3(0.045f, 1.45f, 1.75f), index % 2 == 0 ? warmGlass : coolGlass, parent);
+                var rightWindow = CreateBox($"Right Window {index + 1}", new Vector3(4.64f, 2.15f, z - 0.55f), new Vector3(0.045f, 1.55f, 1.65f), index % 2 == 0 ? coolGlass : warmGlass, parent);
+                leftWindow.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+                rightWindow.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+
+                CreateBox($"Left Window Header {index + 1}", new Vector3(-4.58f, 2.87f, z + 0.45f), new Vector3(0.09f, 0.12f, 2.05f), frame, parent);
+                CreateBox($"Right Window Header {index + 1}", new Vector3(4.58f, 3.02f, z - 0.55f), new Vector3(0.09f, 0.12f, 1.95f), frame, parent);
+            }
+
+            CreateBox("Distant Warm Window Left", new Vector3(-2.35f, 2.35f, 17.5f), new Vector3(1.45f, 1.65f, 0.06f), warmGlass, parent);
+            CreateBox("Distant Cool Window Center", new Vector3(0f, 3.05f, 17.5f), new Vector3(1.15f, 1.35f, 0.06f), coolGlass, parent);
+            CreateBox("Distant Warm Window Right", new Vector3(2.35f, 2.15f, 17.5f), new Vector3(1.35f, 1.5f, 0.06f), warmGlass, parent);
+
+            var cableMaterial = CreateLitMaterial("Title Utility Cables", new Color(0.006f, 0.007f, 0.009f), Color.black, 0.15f, 0.16f);
+            for (var index = 0; index < 3; index++)
+            {
+                var cable = CreatePrimitive($"Overhead Cable {index + 1}", PrimitiveType.Cylinder,
+                    new Vector3(0f, 4.55f - index * 0.26f, 2.2f + index * 5.4f),
+                    new Vector3(0.018f, 4.65f, 0.018f), cableMaterial, parent);
+                cable.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
+            }
         }
 
         private void PlayAmbience()
@@ -285,6 +393,23 @@ namespace DoorPuzzle
                 Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
             fadeOverlay.raycastTarget = false;
             fadeOverlay.transform.SetAsLastSibling();
+
+            headsetPromptGroup = CreateGroup("Headset Prompt", canvasObject.transform);
+            headsetPromptGroup.alpha = 0f;
+            headsetPromptGroup.interactable = false;
+            headsetPromptGroup.blocksRaycasts = false;
+
+            var headsetImage = CreateImage("Headset Image", headsetPromptGroup.transform, Color.white,
+                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0f, 70f), new Vector2(240f, 240f));
+            headsetImage.sprite = headsetPromptSprite;
+            headsetImage.preserveAspect = true;
+            headsetImage.enabled = headsetPromptSprite != null;
+
+            var headsetText = CreateText("Headset Prompt Text", headsetPromptGroup.transform, "헤드셋을 착용해주세요", 38f, FontStyles.Normal,
+                new Color(0.92f, 0.95f, 1f), new Vector2(0.5f, 0.5f), new Vector2(900f, 80f));
+            headsetText.rectTransform.anchoredPosition = new Vector2(0f, -105f);
+            headsetPromptGroup.transform.SetAsLastSibling();
+
             SetFade(1f);
             EventSystem.current.SetSelectedGameObject(beginButton.gameObject);
         }
@@ -396,7 +521,13 @@ namespace DoorPuzzle
         private IEnumerator InitialFadeIn()
         {
             transitioning = true;
-            yield return FadeTo(0f, transitionDuration * 1.8f);
+            yield return FadeCanvasGroup(headsetPromptGroup, 1f, headsetPromptFadeDuration);
+            if (headsetPromptHoldDuration > 0f)
+                yield return new WaitForSecondsRealtime(headsetPromptHoldDuration);
+            yield return FadeCanvasGroup(headsetPromptGroup, 0f, headsetPromptFadeDuration);
+            headsetPromptGroup.gameObject.SetActive(false);
+
+            yield return FadeTo(0f, transitionDuration * 2.4f);
             transitioning = false;
             EventSystem.current.SetSelectedGameObject(beginButton.gameObject);
         }
@@ -443,8 +574,29 @@ namespace DoorPuzzle
             questionGroup.blocksRaycasts = false;
             yield return FadeTo(1f, transitionDuration * 1.5f);
 
-            var operation = SceneManager.LoadSceneAsync(gameplaySceneName, LoadSceneMode.Single);
-            while (operation != null && !operation.isDone)
+            AsyncOperation operation = null;
+            if (Application.CanStreamedLevelBeLoaded(gameplaySceneName))
+            {
+                operation = SceneManager.LoadSceneAsync(gameplaySceneName, LoadSceneMode.Single);
+            }
+            else if (SceneManager.sceneCountInBuildSettings > 1)
+            {
+                Debug.LogWarning($"[DoorPuzzle] Gameplay scene '{gameplaySceneName}' is not in Build Settings. Loading build index 1 instead.");
+                operation = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+            }
+
+            if (operation == null)
+            {
+                Debug.LogError("[DoorPuzzle] Gameplay scene could not be loaded. Check Build Settings.");
+                yield return FadeTo(0f, transitionDuration);
+                questionGroup.interactable = true;
+                questionGroup.blocksRaycasts = true;
+                loading = false;
+                transitioning = false;
+                yield break;
+            }
+
+            while (!operation.isDone)
                 yield return null;
         }
 
@@ -555,6 +707,21 @@ namespace DoorPuzzle
                 yield return null;
             }
             SetFade(target);
+        }
+
+        private static IEnumerator FadeCanvasGroup(CanvasGroup group, float target, float duration)
+        {
+            if (group == null) yield break;
+
+            var start = group.alpha;
+            var elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                group.alpha = Mathf.Lerp(start, target, Mathf.Clamp01(elapsed / duration));
+                yield return null;
+            }
+            group.alpha = target;
         }
 
         private void SetFade(float alpha)

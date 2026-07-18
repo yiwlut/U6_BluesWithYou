@@ -41,7 +41,10 @@ namespace DoorPuzzle
 
         private IEnumerator PlayClueSequence()
         {
-            feedbackAudio?.Play();
+            // Audio feedback is optional. Unity's serialized missing-object sentinel is not
+            // reliably handled by C# null-conditional access, so use Unity's null check.
+            if (feedbackAudio != null && feedbackAudio.isActiveAndEnabled)
+                feedbackAudio.Play();
             var pulseDurations = new[] { 0.16f, 0.16f, 0.48f };
             foreach (var duration in pulseDurations)
             {

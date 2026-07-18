@@ -148,14 +148,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8a6375bc2c84ca2ad5de5b4cdaf3201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameplaySceneName: Scene-3 Demo
+  gameplaySceneName: Scene-TestLevel
   rainyAtmo: {fileID: 8300000, guid: 7658ef43ede6d064c915c4955641c973, type: 3}
   titleTutorialBgm: {fileID: 8300000, guid: 36598255ba32ca348bb2487088157c6b, type: 3}
   wetStreetMaterial: {fileID: 2100000, guid: 0caa1b01da3845a089bb881f624257a1, type: 2}
+  rainyAlleyAtmospherePrefab: {fileID: 100100000, guid: 962794daeae12e0498316b03103a768c, type: 3}
+  lightingRigPrefab: {fileID: 100100000, guid: 52b561480d09ba94e8db56a596384d52, type: 3}
+  titleStreetPrefab: {fileID: 5586932784530130362, guid: bfdafb7186519cb4c94c2301948e3ecd, type: 3}
+  headsetPromptSprite: {fileID: 0}
   koreanFont: {fileID: 11400000, guid: fec60b7ed749e224f88860d509d29ddb, type: 2}
   ambienceVolume: 0.52
   titleMusicVolume: 0.58
   titleMusicFadeInDuration: 6
+  headsetPromptFadeDuration: 0.75
+  headsetPromptHoldDuration: 1.8
   transitionDuration: 0.35
 --- !u!4 &7675527
 Transform:

@@ -13,10 +13,13 @@ namespace DoorPuzzle.Editor
     {
         private const string SceneFolder = "Assets/Scenes";
         private const string TitleScenePath = SceneFolder + "/Scene-1 Title.unity";
-        private const string ScenePath = SceneFolder + "/Scene-3 Demo.unity";
+        private const string ScenePath = SceneFolder + "/Scene-TestLevel.unity";
         private const string TestScenePath = SceneFolder + "/Scene-TestLevel.unity";
         private const string RainAudioPath = "Assets/@SE/bgm_RainyAtmo.wav";
         private const string WetStreetMaterialPath = "Assets/@FX/Materials/Wet Street.mat";
+        private const string RainyAlleyAtmospherePath = "Assets/@Prefabs/Environment/Rainy Alley Atmosphere.prefab";
+        private const string LightingRigPath = "Assets/@Prefabs/Level/Lighting Rig.prefab";
+        private const string TitleStreetPath = "Assets/@Prefabs/Environment/Title Street Environment.prefab";
 
         [MenuItem("Tools/Blues With You/Open Demo Scene", priority = 10)]
         public static void OpenDemoScene()
@@ -190,10 +193,15 @@ namespace DoorPuzzle.Editor
             }
 
             var settings = new SerializedObject(controller);
-            settings.FindProperty("gameplaySceneName").stringValue = "Scene - 3 Demo";
+            settings.FindProperty("gameplaySceneName").stringValue = "Scene-TestLevel";
             settings.FindProperty("rainyAtmo").objectReferenceValue = AssetDatabase.LoadAssetAtPath<AudioClip>(RainAudioPath);
             settings.FindProperty("wetStreetMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(WetStreetMaterialPath);
+            settings.FindProperty("rainyAlleyAtmospherePrefab").objectReferenceValue = AssetDatabase.LoadAssetAtPath<GameObject>(RainyAlleyAtmospherePath);
+            settings.FindProperty("lightingRigPrefab").objectReferenceValue = AssetDatabase.LoadAssetAtPath<GameObject>(LightingRigPath);
+            settings.FindProperty("titleStreetPrefab").objectReferenceValue = AssetDatabase.LoadAssetAtPath<GameObject>(TitleStreetPath);
             settings.FindProperty("ambienceVolume").floatValue = 0.52f;
+            settings.FindProperty("headsetPromptFadeDuration").floatValue = 0.75f;
+            settings.FindProperty("headsetPromptHoldDuration").floatValue = 1.8f;
             settings.ApplyModifiedPropertiesWithoutUndo();
             EditorSceneManager.MarkSceneDirty(titleScene);
             EditorSceneManager.SaveScene(titleScene, TitleScenePath);
