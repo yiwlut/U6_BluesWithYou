@@ -4,6 +4,10 @@
   <img src="Assets/%40Textures/Title_A.png" alt="BLUES WITH YOU title artwork" width="100%">
 </p>
 
+<p align="center">
+  <a href="https://crawnsandoooo.itch.io/blueswithyou"><strong>▶ Play BLUES WITH YOU</strong></a>
+</p>
+
 > A rain-soaked alley. A borrowed light. A rose left behind.
 
 ## About
