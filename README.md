@@ -8,7 +8,7 @@
 
 ## About
 
-`BLUES WITH YOU`는 비가 내리는 밤의 골목을 배경으로 제작 중인 3인칭 빛 퍼즐 게임입니다.
+`BLUES WITH YOU`는 비가 내리는 밤의 골목을 배경으로 제작한 3인칭 빛 퍼즐 프로토타입입니다.
 
 플레이어는 비 오는 날 골목에서 우연히 한 여자를 만나지만, 여자의 모습은 직접 등장하지 않습니다. 대신 골목에 남겨진 장미와 빛의 흔적을 따라가며 그날의 기억을 되짚게 됩니다. 게임 안에서는 별도의 설명 문구를 사용하지 않고, 조명과 반사, 오브젝트의 반응으로 퍼즐의 규칙을 전달하는 것을 목표로 개발했습니다.
 
@@ -38,9 +38,9 @@
 
 ## Visual Direction
 
-비에 젖은 밤거리를 표현하기 위해 젖은 바닥, 가로등 반사, 빗줄기, 월드 공간 안개와 파티클을 조합했습니다. 바닥은 URP Lit 계산을 기반으로 하되, 젖은 영역의 반사와 흐르는 노말, 빗방울 리플을 커스텀 HLSL 셰이더에서 처리합니다.
+비에 젖은 밤거리를 표현하기 위해 젖은 바닥, 가로등 반사, 빗줄기, 월드 공간 안개와 파티클을 조합했습니다. 바닥은 URP Lit 계산을 기반으로 하되, 젖은 영역의 반사와 흐르는 노말, 빗방울 리플을 커스텀 HLSL 셰이더에서 처리했습니다.
 
-웹 환경에서 실행하는 프로젝트이므로 URP Forward 렌더러를 사용합니다. Forward+ 전용 기능에 의존하지 않고, 실시간 조명 수와 투명 파티클 오버드로우를 제한하는 방향으로 작업하고 있습니다.
+웹 환경에서 실행하는 프로젝트이므로 URP Forward 렌더러를 사용했습니다. Forward+ 전용 기능에 의존하지 않고, 실시간 조명 수와 투명 파티클 오버드로우를 제한하는 방향으로 작업했습니다.
 
 ## Technical Details
 
@@ -86,9 +86,9 @@ Assets/
 | Business Man 캐릭터 | 3D 모델, 텍스처 | [manoeldarochadeoliveira / Sketchfab](https://sketchfab.com/3d-models/business-man-low-polygon-game-character-b6f6740f883b4749abac47af0045a9dd) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | 포함 |
 | Noto Sans KR | TMP SDF 폰트 | [Noto Fonts](https://github.com/notofonts/noto-cjk) | SIL Open Font License 1.1 | 포함 |
 | Unity / TextMesh Pro 기본 리소스 | UI 및 템플릿 | Unity Technologies | Unity 패키지 및 Companion 조건 | 포함 |
-| Walking Animation | 애니메이션 FBX | Adobe Mixamo | 게임 사용 가능, 원본 FBX 공개 재배포는 별도 판단 | 제외 |
-| BGM / Rain Ambience | WAV | 개발용 비공개 에셋 | 원본 재배포 권한 미기재 | 제외 |
 | Retro Vending Machine | 3D 모델 FBX | [Valentin Laffitte / itch.io](https://valentin-laffitte.itch.io/retro-vending-machine-3d-asset) | CC0 (Public Domain) | 포함 |
+| Animation | 애니메이션 FBX | Adobe Mixamo | 게임 사용 가능, 원본 FBX 공개 재배포는 별도 판단 | 제외 |
+| BGM / Rain Ambience | WAV | Splice | Splice Sounds License, 원본 파일 재배포 제외 | 제외 |
 
 ### YNL Effect
 
@@ -124,11 +124,13 @@ Attribution: “Business Man - Low Polygon game character” by manoeldarochadeo
 - 공개 정책: 게임 안에서 사용하는 것은 가능하지만 다운로드한 원본 FBX를 공개 저장소에서 다시 배포할 권한까지 명확하다고 판단하지 않았습니다. 따라서 로컬 프로젝트에는 유지하고 Git 추적에서는 제외했습니다.
 - 참고: https://helpx.adobe.com/creative-cloud/faq/mixamo-faq.html
 
-### Music & Ambience
+### BGM & Rain Ambience
 
+- 출처: `Splice`
+- 라이선스: `Splice Sounds License`
 - 사용 위치: `Assets/@SE/*.wav`, `Assets/Resources/Audio/*.wav`
 - 현재 사용하는 파일: 비 환경음, 타이틀 음악, 인게임 피아노 음악
-- 공개 정책: 정확한 제공처와 원본 재배포 조건이 저장소에 기록되어 있지 않아 WAV 원본은 공개 저장소에서 제외했습니다. 출처와 구매 또는 다운로드 증빙을 확인하기 전에는 다시 Git에 추가하지 않습니다.
+- 공개 정책: 게임 안에서 사용했지만 원본 WAV 파일을 개별적으로 다시 배포하지 않도록 공개 저장소에서는 제외했습니다.
 
 ### Vending Machine
 
@@ -141,16 +143,4 @@ Attribution: “Business Man - Low Polygon game character” by manoeldarochadeo
 - 수정 사항: Unity 씬에 맞춰 크기와 위치를 조정하고 BoxCollider와 상호작용 스크립트를 추가했습니다.
 - 공개 정책: 제작자가 CC0로 배포한 에셋이므로 FBX를 공개 저장소에 포함합니다. 출처 표기는 필수가 아니지만 제작자를 확인할 수 있도록 이 문서에 기록했습니다.
 
-## Public Repository Policy
-
-원본 재배포 조건이 확인되지 않은 WAV와 Mixamo 애니메이션 FBX는 `.gitignore`에 등록하고 Git 추적에서 제거했습니다. 파일 자체는 개발 PC에 남아 있으므로 기존 로컬 플레이와 빌드에는 영향을 주지 않습니다. CC0가 확인된 자판기 FBX는 공개 저장소에 포함합니다.
-
-공개 Web 빌드를 배포할 때는 각 라이선스가 게임에 포함된 형태의 배포를 허용하는지 다시 확인합니다. 원본 에셋 파일을 저장소에서 직접 내려받을 수 있는 상태와, 게임 빌드 안에 가공되어 포함되는 상태는 구분해서 관리합니다.
-
-## Release Checklist
-
-- [ ] Web 빌드에서 타이틀 씬부터 게임 씬까지 정상 진행되는지 확인
-- [ ] 공개 빌드에 포함되는 음원과 모델의 사용 권한 재확인
-- [ ] 외부 에셋 출처와 라이선스 문서 유지
-- [ ] AI로 생성하거나 보조받은 이미지와 개발 내역을 AI 활용 기술 문서에 기록
-- [ ] 플레이 영상과 Web 빌드 링크를 README에 추가
+## Known Issue
