@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BLUES WITH YOU | 게임 설명 문서</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07101c;
+      --panel: rgba(10, 25, 42, .86);
+      --line: rgba(150, 207, 255, .22);
+      --text: #eaf5ff;
+      --muted: #a7bfd3;
+      --accent: #8ddcff;
+      --accent-strong: #ffb36b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+      color: var(--text);
+      line-height: 1.75;
+      background:
+        radial-gradient(circle at 78% 12%, rgba(76, 171, 220, .18), transparent 32rem),
+        linear-gradient(135deg, #07101c 0%, #0c1d31 52%, #060b14 100%);
+    }
+    main { width: min(980px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0 72px; }
+    header { padding: 32px; border: 1px solid var(--line); border-radius: 24px; background: linear-gradient(135deg, rgba(18, 48, 73, .92), rgba(6, 14, 26, .88)); box-shadow: 0 24px 80px rgba(0,0,0,.28); }
+    .eyebrow { margin: 0 0 8px; color: var(--accent); letter-spacing: .16em; font-size: .78rem; font-weight: 700; }
+    h1 { margin: 0; font-size: clamp(2rem, 7vw, 4.8rem); line-height: 1.05; letter-spacing: .06em; }
+    .tagline { margin: 18px 0 0; color: #d4e8f7; font-size: 1.08rem; }
+    nav { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0; }
+    nav a, .play-button { color: #03101d; background: var(--accent); border-radius: 999px; padding: 8px 15px; font-weight: 700; text-decoration: none; }
+    nav a { color: var(--text); background: rgba(141, 220, 255, .12); border: 1px solid var(--line); font-size: .88rem; }
+    section { margin-top: 22px; padding: 28px 32px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); }
+    h2 { margin: 0 0 14px; color: var(--accent); font-size: 1.45rem; }
+    h3 { margin: 24px 0 6px; color: var(--accent-strong); font-size: 1rem; }
+    p { margin: 8px 0; }
+    .lead { font-size: 1.12rem; }
+    .play { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 22px; }
+    .play-button { display: inline-block; background: var(--accent-strong); }
+    .note { color: var(--muted); font-size: .92rem; }
+    ul { margin: 8px 0 0; padding-left: 1.3rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--accent); font-size: .9rem; }
+    code { padding: 2px 6px; border-radius: 5px; background: rgba(141, 220, 255, .12); color: #d9f4ff; }
+    a { color: var(--accent); }
+    footer { padding: 24px 4px 0; color: var(--muted); font-size: .86rem; text-align: center; }
+    @media (max-width: 640px) {
+      main { width: min(100% - 20px, 980px); padding-top: 20px; }
+      header, section { padding: 22px 20px; }
+      table { display: block; overflow-x: auto; white-space: nowrap; }
+      td { white-space: normal; min-width: 130px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header id="top">
+      <p class="eyebrow">GAME DESCRIPTION / PROTOTYPE</p>
+      <h1>BLUES WITH YOU</h1>
+      <p class="tagline">비 내리는 밤의 골목에서 빛과 장미의 흔적을 따라가는 3인칭 퍼즐 게임</p>
+      <div class="play">
+        <a class="play-button" href="https://crawnsandoooo.itch.io/blueswithyou" target="_blank" rel="noopener">▶ 바로 플레이하기</a>
+        <span class="note">웹 브라우저에서 별도 설치 없이 실행할 수 있습니다.</span>
+      </div>
+    </header>
+
+    <nav aria-label="문서 목차">
+      <a href="#introduction">게임 소개</a>
+      <a href="#how-to-play">게임 방법</a>
+      <a href="#run">실행 방법</a>
+      <a href="#links">링크</a>
+    </nav>
+
+    <section id="introduction">
+      <h2>게임 소개</h2>
+      <p class="lead">비가 그치지 않는 밤, 플레이어는 낯선 골목에서 한 사람의 흔적과 마주합니다.</p>
+      <p>여자의 모습은 직접 보여주지 않고, 골목에 남겨진 장미와 빛, 젖은 거리의 반사로 이야기를 전달합니다. 플레이어는 주변을 천천히 살피며 빛에 반응하는 오브젝트를 찾아야 합니다.</p>
+      <p>이 작품은 짧은 플레이 안에서 분위기와 상호작용을 경험할 수 있도록 구성한 프로토타입입니다.</p>
+    </section>
+
+    <section id="how-to-play">
+      <h2>게임 방법</h2>
+      <h3>목표</h3>
+      <p>자판기에서 단서를 확인하고, 골목 끝의 포탈을 활성화해 닫힌 길을 통과하는 것이 목표입니다.</p>
+
+      <h3>조작</h3>
+      <table>
+        <thead><tr><th>입력</th><th>기능</th></tr></thead>
+        <tbody>
+          <tr><td><code>WASD</code></td><td>플레이어 이동</td></tr>
+          <tr><td>마우스 이동</td><td>카메라 회전</td></tr>
+          <tr><td><code>Left Shift</code></td><td>달리기</td></tr>
+          <tr><td><code>E</code></td><td>자판기·포탈 상호작용</td></tr>
+          <tr><td>마우스 오른쪽 버튼</td><td>빛 오브젝트 타겟팅</td></tr>
+          <tr><td>마우스 왼쪽 버튼</td><td>타겟 오브젝트 활성화</td></tr>
+          <tr><td><code>Esc</code></td><td>마우스 커서 잠금 전환</td></tr>
+        </tbody>
+      </table>
+
+      <h3>진행 순서</h3>
+      <ol>
+        <li>게임 화면을 클릭해 브라우저 포커스를 맞춥니다.</li>
+        <li>골목을 이동해 자판기를 찾습니다.</li>
+        <li>자판기 화면이 화면 중앙에 오도록 바라본 뒤 <code>E</code>를 누릅니다.</li>
+        <li>자판기 화면의 빛 반응을 확인하고 골목 끝 포탈로 이동합니다.</li>
+        <li>포탈의 신호부를 중앙에 맞추고 <code>E</code>를 눌러 문을 엽니다.</li>
+      </ol>
+
+      <h3>종료 조건</h3>
+      <p>포탈의 잠금이 해제되고 문이 올라가면 현재 프로토타입의 플레이 목표가 완료됩니다.</p>
+    </section>
+
+    <section id="run">
+      <h2>실행 방법</h2>
+      <h3>웹 실행</h3>
+      <ol>
+        <li>아래 플레이 링크를 엽니다.</li>
+        <li>itch.io 페이지에서 플레이 버튼을 누릅니다.</li>
+        <li>게임 화면을 한 번 클릭한 뒤 입력을 시작합니다.</li>
+      </ol>
+      <p><strong>권장 환경:</strong> 최신 Chrome, Edge, Firefox 또는 Safari 데스크톱 브라우저</p>
+      <p class="note">웹 버전은 브라우저에서 실행되므로 별도의 설치 파일이 필요하지 않습니다. 브라우저 탭이 키보드 입력을 받고 있는지 확인해 주세요.</p>
+
+      <h3>APK / 테스트 설치</h3>
+      <p>현재 제출본은 웹 버전을 기준으로 합니다. APK 또는 별도 테스트 배포 링크가 추가되면 아래 자리표시자를 교체합니다.</p>
+      <p><a href="#">APK / 테스트 배포 링크 — 추후 추가</a></p>
+    </section>
+
+    <section id="links">
+      <h2>플레이 링크 및 영상</h2>
+      <p><strong>웹 플레이:</strong> <a href="https://crawnsandoooo.itch.io/blueswithyou" target="_blank" rel="noopener">https://crawnsandoooo.itch.io/blueswithyou</a></p>
+      <p><strong>플레이 영상:</strong> <a href="#">YouTube 영상 링크 — 추후 추가</a></p>
+      <p><strong>설치 파일:</strong> 웹 버전은 위 플레이 링크에서 실행합니다. APK가 준비되면 이 문서에 다운로드 링크를 추가합니다.</p>
+    </section>
+
+    <footer>BLUES WITH YOU · Prototype Submission Document</footer>
+  </main>
+</body>
+</html>

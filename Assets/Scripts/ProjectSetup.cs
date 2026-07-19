@@ -16,7 +16,7 @@ namespace DoorPuzzle.Editor
         private const string ScenePath = SceneFolder + "/Scene-TestLevel.unity";
         private const string TestScenePath = SceneFolder + "/Scene-TestLevel.unity";
         private const string RainAudioPath = "Assets/@SE/bgm_RainyAtmo.wav";
-        private const string HeadsetPromptSpritePath = "Assets/@SE/Headset.png";
+        private const string HeadsetPromptSpritePath = "Assets/@SE/Headset01.png";
         private const string WetStreetMaterialPath = "Assets/@FX/Materials/Wet Street.mat";
         private const string RainyAlleyAtmospherePath = "Assets/@Prefabs/Environment/Rainy Alley Atmosphere.prefab";
         private const string LightingRigPath = "Assets/@Prefabs/Level/Lighting Rig.prefab";

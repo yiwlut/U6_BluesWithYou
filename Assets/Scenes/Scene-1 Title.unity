@@ -155,7 +155,7 @@ MonoBehaviour:
   rainyAlleyAtmospherePrefab: {fileID: 100100000, guid: 962794daeae12e0498316b03103a768c, type: 3}
   lightingRigPrefab: {fileID: 100100000, guid: 52b561480d09ba94e8db56a596384d52, type: 3}
   titleStreetPrefab: {fileID: 5586932784530130362, guid: bfdafb7186519cb4c94c2301948e3ecd, type: 3}
-  headsetPromptSprite: {fileID: 21300000, guid: ffbf801d7bfd48048af75c35c3ea757f, type: 3}
+  headsetPromptSprite: {fileID: 21300000, guid: 72594fec785c83649a9d68beead91920, type: 3}
   koreanFont: {fileID: 11400000, guid: fec60b7ed749e224f88860d509d29ddb, type: 2}
   ambienceVolume: 0.52
   titleMusicVolume: 0.58

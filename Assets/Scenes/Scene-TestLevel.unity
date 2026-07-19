@@ -516,6 +516,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   screenRenderer: {fileID: 0}
   feedbackAudio: {fileID: 0}
+  feedbackClip: {fileID: 8300000, guid: d78dda9cda24431438a0087bd6099c06, type: 3}
   portalLock: {fileID: 0}
   idleColor: {r: 0.12, g: 0.28, b: 0.34, a: 1}
   focusColor: {r: 0.22, g: 0.7, b: 0.82, a: 1}

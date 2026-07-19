@@ -37,12 +37,21 @@ namespace DoorPuzzle
                 physicalBarrier.gameObject.SetActive(true);
             }
             ApplySignal(lockedColor, 0.35f);
+            Debug.Log($"[VendingPortal] Ready on '{name}'. " +
+                      $"barrier={(physicalBarrier != null ? physicalBarrier.name : "MISSING")}, " +
+                      $"signalRenderer={(signalRenderer != null ? signalRenderer.name : "MISSING")}, " +
+                      $"signalLight={(signalLight != null ? signalLight.name : "MISSING")}", this);
         }
 
         public void RevealClue()
         {
-            if (clueRevealed || unlocked) return;
+            if (clueRevealed || unlocked)
+            {
+                Debug.LogWarning($"[VendingPortal] RevealClue ignored. clueRevealed={clueRevealed}, unlocked={unlocked}.", this);
+                return;
+            }
             clueRevealed = true;
+            Debug.Log("[VendingPortal] Clue received. Portal can now be unlocked with E.", this);
             if (feedbackRoutine != null) StopCoroutine(feedbackRoutine);
             feedbackRoutine = StartCoroutine(PulseSignal(clueColor, 3, 0.16f));
         }
@@ -59,7 +68,14 @@ namespace DoorPuzzle
 
         public void Interact(ThirdPersonController player)
         {
-            if (!CanInteract || feedbackRoutine != null) return;
+            if (!CanInteract || feedbackRoutine != null)
+            {
+                Debug.LogWarning($"[VendingPortal] Interaction ignored. CanInteract={CanInteract}, " +
+                                 $"sequenceRunning={feedbackRoutine != null}, clueRevealed={clueRevealed}, unlocked={unlocked}.", this);
+                return;
+            }
+            Debug.Log($"[VendingPortal] Interaction accepted. clueRevealed={clueRevealed}. " +
+                      $"Action={(clueRevealed ? "unlock door" : "locked pulse")}", this);
             feedbackRoutine = clueRevealed
                 ? StartCoroutine(UnlockDoor())
                 : StartCoroutine(PulseSignal(lockedColor, 2, 0.1f));
@@ -96,6 +112,7 @@ namespace DoorPuzzle
                 physicalBarrier.gameObject.SetActive(false);
             }
             ApplySignal(unlockedColor, 1.2f);
+            Debug.Log("[VendingPortal] Door unlocked. Physical barrier raised and disabled.", this);
             feedbackRoutine = null;
         }
 

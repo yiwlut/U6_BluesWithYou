@@ -220,12 +220,17 @@ namespace DoorPuzzle
         {
             IInteractable next = null;
             var ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
-            var hits = Physics.SphereCastAll(ray, interactionRadius, interactionRange,
+            var playerInteractionOrigin = transform.position + Vector3.up;
+            var cameraToPlayerDistance = Vector3.Distance(ray.origin, playerInteractionOrigin);
+            var rayDistance = cameraToPlayerDistance + interactionRange;
+            var hits = Physics.SphereCastAll(ray, interactionRadius, rayDistance,
                 interactionMask, QueryTriggerInteraction.Collide);
             System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
             foreach (var hit in hits)
             {
                 if (hit.transform == transform || hit.transform.IsChildOf(transform)) continue;
+                var closestPoint = hit.collider.ClosestPoint(playerInteractionOrigin);
+                if (Vector3.Distance(playerInteractionOrigin, closestPoint) > interactionRange) continue;
                 next = hit.collider.GetComponentInParent<IInteractable>();
                 if (next != null && next.CanInteract) break;
                 next = null;
@@ -234,16 +239,56 @@ namespace DoorPuzzle
             SetInteractable(next);
             var interactPressed = (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame) ||
                                   (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame);
-            if (interactPressed && currentInteractable != null)
+            if (!interactPressed) return;
+
+            if (currentInteractable != null)
+            {
+                var component = currentInteractable as Component;
+                var objectName = component != null ? component.gameObject.name : "non-Component interactable";
+                Debug.Log($"[Interaction] E pressed -> {currentInteractable.GetType().Name} on '{objectName}'.", component);
                 currentInteractable.Interact(this);
+                return;
+            }
+
+            var hitSummary = new System.Text.StringBuilder();
+            var displayedHitCount = Mathf.Min(hits.Length, 6);
+            for (var index = 0; index < displayedHitCount; index++)
+            {
+                var hit = hits[index];
+                if (index > 0) hitSummary.Append(" | ");
+                var playerDistance = Vector3.Distance(playerInteractionOrigin,
+                    hit.collider.ClosestPoint(playerInteractionOrigin));
+                hitSummary.Append($"{hit.collider.name} layer={hit.collider.gameObject.layer} " +
+                                  $"rayDistance={hit.distance:F2} playerDistance={playerDistance:F2}");
+            }
+            if (hits.Length > displayedHitCount)
+                hitSummary.Append($" | +{hits.Length - displayedHitCount} more");
+
+            Debug.LogWarning(
+                $"[Interaction] E pressed, but no IInteractable was focused. " +
+                $"SphereCast hits={hits.Length}, playerReach={interactionRange:F2}, " +
+                $"rayDistance={rayDistance:F2}, radius={interactionRadius:F2}, " +
+                $"mask={interactionMask.value}. Hits: {(hits.Length > 0 ? hitSummary.ToString() : "none")}", this);
         }
 
         private void SetInteractable(IInteractable next)
         {
             if (ReferenceEquals(next, currentInteractable)) return;
+            if (currentInteractable != null)
+            {
+                var previousComponent = currentInteractable as Component;
+                Debug.Log($"[Interaction] Focus lost: {currentInteractable.GetType().Name} on " +
+                          $"'{(previousComponent != null ? previousComponent.gameObject.name : "unknown")}'.", previousComponent);
+            }
             currentInteractable?.SetInteractionFocused(false);
             currentInteractable = next;
             currentInteractable?.SetInteractionFocused(true);
+            if (currentInteractable != null)
+            {
+                var currentComponent = currentInteractable as Component;
+                Debug.Log($"[Interaction] Focus acquired: {currentInteractable.GetType().Name} on " +
+                          $"'{(currentComponent != null ? currentComponent.gameObject.name : "unknown")}'.", currentComponent);
+            }
         }
 
         private void ClearInteraction()

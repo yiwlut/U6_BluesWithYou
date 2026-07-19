@@ -75,8 +75,6 @@ Assets/
 └── Font/            # TextMesh Pro 한국어 폰트 에셋
 ```
 
-레벨은 런타임 절차 생성이 아니라 씬과 프리팹에 직접 배치하는 방식으로 변경했습니다. 조명, 가로등, 바닥, 포그와 퍼즐 오브젝트도 씬에서 확인하고 수정할 수 있도록 구성했습니다.
-
 ## Assets & Licenses
 
 프로젝트에서 사용한 외부 에셋과 공개 저장소 포함 여부를 아래에 정리했습니다. 자체 제작하거나 프로젝트에 맞게 작성한 코드와 셰이더는 별도로 표시했습니다.
@@ -110,7 +108,7 @@ Assets/
   - `Assets/@models/Player01/Player_01.fbx`
   - `Assets/@Materials/Player01/Textures/`
   - `Assets/@Textures/T_business_man_*.png`
-- 수정 사항: Unity Humanoid 리그 설정, 플레이어 크기 조정, URP Lit 머티리얼 연결과 런타임 애니메이션 연동 작업을 진행했습니다.
+- 적용 내용: Unity 플레이어 캐릭터와 걷기 애니메이션으로 연결했습니다.
 
 Attribution: “Business Man - Low Polygon game character” by manoeldarochadeoliveira, licensed under CC BY 4.0. Unity 임포트, 머티리얼, 크기와 애니메이션 연결은 `BLUES WITH YOU`에 맞게 수정했습니다.
 
@@ -120,6 +118,27 @@ Attribution: “Business Man - Low Polygon game character” by manoeldarochadeo
 - 사용 위치: `Assets/Font/NotoSansKR-Regular SDF.asset`
 - 사용 방식: 타이틀과 선택지에서 한국어를 표시하기 위한 TextMesh Pro SDF 에셋으로 변환했습니다.
 - 라이선스 원문: `Assets/Font/LICENSE-NotoSansKR-OFL.txt`
+
+### Rose
+
+- 에셋명: `Rose`
+- 제작자: `Heliona`
+- 출처: [Sketchfab](https://sketchfab.com/3d-models/rose-6281bf3703584323bb4d8326f1f1b59d)
+- 라이선스: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- 사용 목적: 게임의 중심 시각 요소이자 서사 오브젝트인 장미 표현
+- 표시 문구: `"Rose" by Heliona, licensed under CC BY 4.0. Adapted for use in BLUES WITH YOU.`
+
+### Vending Machine Button Sound
+
+- 파일: `Assets/@SE/SE_VendingMBtn.mp3`
+- 출처: [効果音ラボ (Sound Effect Lab)](https://soundeffect-lab.info/)
+- 이용규약: [공식 이용규약](https://soundeffect-lab.info/agreement/)
+- 라이선스 구분: 오픈소스 라이선스가 아닌 効果音ラボ 자체 이용규약
+- 사용 목적: 자판기 상호작용 버튼 효과음
+- 크레딧: 표기 의무는 없지만 출처 확인을 위해 문서에 표기했습니다.
+- 공개 저장소 정책: 공식 FAQ에서 효과음을 포함한 게임·애플리케이션의 GitHub 공개를 허용하고 있으므로 저장소에 포함할 수 있습니다. 다만 가능한 경우 음원 파일이 직접 노출되지 않도록 조치할 것을 권장합니다.
+- 제한 사항: 효과음 단독 재배포, 효과음 모음·사운드보드 제작, 수정 음원의 소재 배포, 직접 링크, AI 학습, 음원 상표 등록 및 타 이용자의 사용을 제한할 수 있는 Content ID 등록은 금지됩니다.
+- 공식 확인: [効果音ラボ FAQ](https://soundeffect-lab.info/faq/)
 
 ### Adobe Mixamo
 

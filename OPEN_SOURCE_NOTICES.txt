@@ -1,0 +1,133 @@
+BLUES WITH YOU - ASSET SOURCES AND LICENSE NOTICES
+=================================================
+
+This file lists third-party assets used by the BLUES WITH YOU prototype.
+License terms remain the property of their respective authors and licensors.
+
+
+1. YNL Effect
+-------------
+Source: https://github.com/YNL-Collection/YNL-Effect
+Author: Yunasawa Studio
+License: MIT License
+Copyright: Copyright (c) 2024 Yunasawa Studio
+Usage: Wet-road and rain visual source textures and reference assets
+Project path: Assets/@FX/Textures/YNL/
+License copy: Assets/@FX/Textures/YNL/LICENSE-YNL-Effect.txt
+
+
+2. Business Man - Low Polygon Game Character
+---------------------------------------------
+Source: https://sketchfab.com/3d-models/business-man-low-polygon-game-character-b6f6740f883b4749abac47af0045a9dd
+Author: manoeldarochadeoliveira
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+License URL: https://creativecommons.org/licenses/by/4.0/
+Usage: Player character model and textures
+Project paths:
+  Assets/@models/Player01/Player_01.fbx
+  Assets/@Materials/Player01/Textures/
+  Assets/@Textures/T_business_man_*.png
+
+Attribution:
+"Business Man - Low Polygon Game Character" by manoeldarochadeoliveira,
+licensed under CC BY 4.0. Adapted for use in BLUES WITH YOU.
+
+
+3. Noto Sans KR
+---------------
+Source: https://github.com/notofonts/noto-cjk
+Authors: The Noto Project contributors
+License: SIL Open Font License 1.1
+Usage: Korean TextMesh Pro font asset
+Project path: Assets/Font/NotoSansKR-Regular SDF.asset
+License copy: Assets/Font/LICENSE-NotoSansKR-OFL.txt
+
+
+4. Retro Vending Machine 3D Asset
+---------------------------------
+Source: https://valentin-laffitte.itch.io/retro-vending-machine-3d-asset
+Author: Valentin Laffitte
+License: CC0 1.0 Universal / Public Domain Dedication
+License URL: https://creativecommons.org/publicdomain/zero/1.0/
+Usage: Interactive vending-machine model
+Project path: Assets/@models/VendingMachine.fbx
+
+
+5. Rose
+-------
+Source: https://sketchfab.com/3d-models/rose-6281bf3703584323bb4d8326f1f1b59d
+Author: Heliona
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+License URL: https://creativecommons.org/licenses/by/4.0/
+Usage: Rose model used as a central visual and narrative object
+
+Attribution:
+"Rose" by Heliona, licensed under CC BY 4.0. Adapted for use in
+BLUES WITH YOU.
+
+
+6. Unity and TextMesh Pro Companion Assets
+-------------------------------------------
+Source: Unity Technologies / Unity Package Manager
+License: Unity Companion License and applicable Unity package terms
+Usage: Engine package resources and TextMesh Pro companion resources
+License information: https://unity.com/legal/licenses/unity-companion-license
+
+
+7. Vending Machine Button Sound
+--------------------------------
+File: Assets/@SE/SE_VendingMBtn.mp3
+Source: Sound Effect Lab (効果音ラボ)
+Official site: https://soundeffect-lab.info/
+Terms of use: https://soundeffect-lab.info/agreement/
+FAQ: https://soundeffect-lab.info/faq/
+License: Sound Effect Lab Terms of Use (custom license; not open source)
+Usage: Vending-machine interaction button sound
+Credit: Optional under the official terms; included here for transparency
+Recommended English credit: Sound Effect Lab
+
+Public repository review:
+- Free use is permitted for individuals and organizations, including
+  commercial projects.
+- Use as an operation sound embedded in a game or application is permitted.
+- The official FAQ explicitly permits publishing an application on GitHub
+  with the audio file exposed, while requesting that the file be hidden when
+  reasonably possible.
+- This project is a game, not a soundboard, sound library, template, or asset
+  redistribution service. SE_VendingMBtn.mp3 may therefore remain in the
+  public project repository under the currently published terms.
+- Standalone redistribution, direct linking, redistribution of an edited
+  version, adult or illegal use, AI-training use, audio trademark registration,
+  and uses that interfere with other users' rights remain prohibited.
+- Do not register content containing this sound with Content ID or an
+  equivalent system where doing so could restrict other users of the sound.
+
+
+NON-OPEN-SOURCE OR REDISTRIBUTION-RESTRICTED DEPENDENCIES
+========================================================
+
+The following items are not treated as open-source assets and, unlike the
+Sound Effect Lab exception documented above, their raw source files are
+excluded from the public repository through .gitignore.
+
+- Adobe Mixamo animation FBX files
+  Source: https://helpx.adobe.com/creative-cloud/faq/mixamo-faq.html
+  Public repository policy: Excluded; obtain separately under Adobe's terms.
+
+- BGM and rain ambience audio
+  Source: Splice
+  License: Splice Sounds License
+  Public repository policy: Raw WAV files are excluded from Git distribution.
+
+- Any audio or asset with unverified redistribution permission
+  Public repository policy: Excluded until its source and redistribution terms
+  have been verified and documented.
+
+
+PROJECT-ORIGINAL CONTENT
+========================
+
+Unless otherwise identified above, project-authored scripts, shaders,
+materials, prefabs, scene composition, UI, and original artwork belong to the
+BLUES WITH YOU project author. This notice does not grant rights to third-party
+assets beyond their respective licenses.

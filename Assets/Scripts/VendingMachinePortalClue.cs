@@ -8,6 +8,7 @@ namespace DoorPuzzle
     {
         [SerializeField] private Renderer screenRenderer;
         [SerializeField] private AudioSource feedbackAudio;
+        [SerializeField] private AudioClip feedbackClip;
         [SerializeField] private VendingPortalLock portalLock;
         [SerializeField] private Color idleColor = new Color(0.12f, 0.28f, 0.34f, 1f);
         [SerializeField] private Color focusColor = new Color(0.22f, 0.7f, 0.82f, 1f);
@@ -24,6 +25,11 @@ namespace DoorPuzzle
         {
             ResolveReferences();
             ApplyScreenColor(idleColor, 1f);
+            Debug.Log($"[VendingClue] Ready on '{name}'. " +
+                      $"screenRenderer={(screenRenderer != null ? screenRenderer.name : "MISSING")}, " +
+                      $"portalLock={(portalLock != null ? portalLock.name : "MISSING")}, " +
+                      $"feedbackAudio={(feedbackAudio != null ? feedbackAudio.name : "optional/missing")}, " +
+                      $"feedbackClip={(feedbackClip != null ? feedbackClip.name : "MISSING")}", this);
         }
 
         public void SetInteractionFocused(bool value)
@@ -35,16 +41,19 @@ namespace DoorPuzzle
 
         public void Interact(ThirdPersonController player)
         {
-            if (!CanInteract || feedbackRoutine != null) return;
+            if (!CanInteract || feedbackRoutine != null)
+            {
+                Debug.LogWarning($"[VendingClue] Interaction ignored. CanInteract={CanInteract}, " +
+                                 $"sequenceRunning={feedbackRoutine != null}, clueRead={clueRead}.", this);
+                return;
+            }
+            Debug.Log("[VendingClue] Interaction accepted. Starting clue pulse sequence.", this);
+            PlayFeedbackSound();
             feedbackRoutine = StartCoroutine(PlayClueSequence());
         }
 
         private IEnumerator PlayClueSequence()
         {
-            // Audio feedback is optional. Unity's serialized missing-object sentinel is not
-            // reliably handled by C# null-conditional access, so use Unity's null check.
-            if (feedbackAudio != null && feedbackAudio.isActiveAndEnabled)
-                feedbackAudio.Play();
             var pulseDurations = new[] { 0.16f, 0.16f, 0.48f };
             foreach (var duration in pulseDurations)
             {
@@ -56,8 +65,33 @@ namespace DoorPuzzle
 
             clueRead = true;
             ApplyScreenColor(clueColor, 1.7f);
-            portalLock?.RevealClue();
+            if (portalLock != null)
+            {
+                portalLock.RevealClue();
+                Debug.Log("[VendingClue] Clue completed and portal lock notified.", this);
+            }
+            else
+            {
+                Debug.LogError("[VendingClue] Clue completed, but no VendingPortalLock was found.", this);
+            }
             feedbackRoutine = null;
+        }
+
+        private void PlayFeedbackSound()
+        {
+            if (feedbackClip != null)
+            {
+                if (feedbackAudio != null && feedbackAudio.isActiveAndEnabled)
+                    feedbackAudio.PlayOneShot(feedbackClip);
+                else
+                    AudioSource.PlayClipAtPoint(feedbackClip, transform.position, 1f);
+                return;
+            }
+
+            if (feedbackAudio != null && feedbackAudio.isActiveAndEnabled)
+                feedbackAudio.Play();
+            else
+                Debug.LogWarning("[VendingClue] Interaction sound could not play because no AudioClip is assigned.", this);
         }
 
         private void ResolveReferences()
